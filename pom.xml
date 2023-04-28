@@ -6,7 +6,7 @@
 
     <groupId>ru.vzotov</groupId>
     <artifactId>calendar-model</artifactId>
-    <version>1.56-SNAPSHOT</version>
+    <version>1.56</version>
     <name>[Model] Production Calendars</name>
 
     <properties>
