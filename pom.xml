@@ -9,6 +9,18 @@
     <version>1.56-SNAPSHOT</version>
     <name>[Model] Production Calendars</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <assertj.version>2.6.0</assertj.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <nv-i18n.version>1.23</nv-i18n.version>
+        <jacoco.version>0.8.3</jacoco.version>
+        <!-- Own modules -->
+        <ddd.version>1.4</ddd.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -57,18 +69,6 @@
 
         </plugins>
     </build>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <junit.version>4.12</junit.version>
-        <assertj.version>2.6.0</assertj.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <nv-i18n.version>1.23</nv-i18n.version>
-        <jacoco.version>0.8.3</jacoco.version>
-        <!-- Own modules -->
-        <ddd.version>1.4</ddd.version>
-    </properties>
 
     <dependencies>
         <!--
