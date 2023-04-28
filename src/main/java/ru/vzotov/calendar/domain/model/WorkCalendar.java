@@ -31,7 +31,7 @@ public class WorkCalendar implements Entity<WorkCalendar> {
         Validate.notNull(from);
         Validate.notNull(to);
         Validate.notNull(location);
-        Validate.notEmpty(specialDays);
+        Validate.notNull(specialDays);
         Validate.isTrue(specialDays.stream().noneMatch(date -> date.day().isAfter(to) || date.day().isBefore(from)));
         this.from = from;
         this.to = to;
