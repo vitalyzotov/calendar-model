@@ -5,7 +5,7 @@ import ru.vzotov.ddd.shared.ValueObject;
 public enum RecurrenceUnit implements ValueObject<RecurrenceUnit> {
     MONTHLY('M'), WEEKLY('W'), DATE('T');
 
-    private char symbol;
+    private final char symbol;
 
     RecurrenceUnit(char symbol) {
         this.symbol = symbol;

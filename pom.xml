@@ -10,29 +10,19 @@
     <name>[Model] Production Calendars</name>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <junit.version>4.12</junit.version>
-        <assertj.version>2.6.0</assertj.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <nv-i18n.version>1.23</nv-i18n.version>
-        <jacoco.version>0.8.3</jacoco.version>
+        <junit.version>5.9.2</junit.version>
+        <assertj.version>3.24.2</assertj.version>
+        <commons-lang.version>3.12.0</commons-lang.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <!-- Own modules -->
         <ddd.version>1.4</ddd.version>
     </properties>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
             <!-- Code Coverage report generation -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -58,7 +48,7 @@
             <plugin>
                 <groupId>com.amashchenko.maven.plugin</groupId>
                 <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.13.0</version>
+                <version>1.20.0</version>
                 <configuration>
                     <gitFlowConfig>
                         <productionBranch>main</productionBranch>
@@ -81,13 +71,13 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -101,14 +91,15 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang.version}</version>
             </dependency>
 

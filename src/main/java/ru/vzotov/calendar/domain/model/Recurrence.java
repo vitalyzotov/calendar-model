@@ -1,6 +1,6 @@
 package ru.vzotov.calendar.domain.model;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import ru.vzotov.ddd.shared.ValueObject;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ public class Recurrence implements ValueObject<Recurrence> {
     /**
      * Периодичность повторения
      */
-    private RecurrenceUnit unit;
+    private final RecurrenceUnit unit;
 
     /**
      * Начало повторения
@@ -197,18 +197,10 @@ public class Recurrence implements ValueObject<Recurrence> {
         int bracketClose = -1;
         for (int i = 0; i < value.length(); i++) {
             switch (value.charAt(i)) {
-                case '(':
-                    parenthesisOpen = i;
-                    break;
-                case ')':
-                    parenthesisClose = i;
-                    break;
-                case '[':
-                    bracketOpen = i;
-                    break;
-                case ']':
-                    bracketClose = i;
-                    break;
+                case '(' -> parenthesisOpen = i;
+                case ')' -> parenthesisClose = i;
+                case '[' -> bracketOpen = i;
+                case ']' -> bracketClose = i;
             }
         }
         Validate.isTrue(parenthesisOpen > 0);
@@ -225,15 +217,13 @@ public class Recurrence implements ValueObject<Recurrence> {
         final boolean workdays = value.charAt(bracketClose - 1) == 'w';
         final int day = Integer.parseInt(value.substring(bracketOpen + 1, bracketClose - (workdays ? 1 : 0)));
 
-        switch (unit) {
-            case DATE:
-                Validate.notNull(date);
-                return new Recurrence(date);
-            default:
-                Validate.isTrue(date == null);
-                return new Recurrence(start, finish, unit, nth, day, workdays);
+        if (unit == RecurrenceUnit.DATE) {
+            Validate.notNull(date);
+            return new Recurrence(date);
+        } else {
+            Validate.isTrue(date == null);
+            return new Recurrence(start, finish, unit, nth, day, workdays);
         }
-
     }
 
 }
