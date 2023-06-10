@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 @AggregateRoot
 public class WorkCalendar implements Entity<WorkCalendar> {
 
-    private LocalDate from;
+    private final LocalDate from;
 
-    private LocalDate to;
+    private final LocalDate to;
 
-    private String location;
+    private final String location;
 
-    private Set<SpecialDay> specialDays;
+    private final Set<SpecialDay> specialDays;
 
-    private Map<LocalDate, SpecialDay> specialDaysMap;
+    private final Map<LocalDate, SpecialDay> specialDaysMap;
 
     public WorkCalendar(LocalDate from, LocalDate to, String location, Collection<SpecialDay> specialDays) {
         Validate.notNull(from);
@@ -64,25 +64,17 @@ public class WorkCalendar implements Entity<WorkCalendar> {
         SpecialDay special = specialDaysMap.get(date);
         if (special != null) return special.type();
         DayOfWeek dayOfWeek = date.getDayOfWeek();
-        switch (dayOfWeek) {
-            case SATURDAY:
-            case SUNDAY:
-                return DayType.WEEKEND;
-
-            default:
-                return DayType.WORKING;
-        }
+        return switch (dayOfWeek) {
+            case SATURDAY, SUNDAY -> DayType.WEEKEND;
+            default -> DayType.WORKING;
+        };
     }
 
     public int workdaysBetween(LocalDate start, LocalDate finish) {
         int result = 0;
         for (LocalDate date = start; !date.isAfter(finish); date = date.plusDays(1)) {
-            switch (typeOfDay(date)) {
-                case WORKING:
-                    result++;
-                    break;
-                default:
-                    break;
+            if (typeOfDay(date) == DayType.WORKING) {
+                result++;
             }
         }
         return result;

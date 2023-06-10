@@ -53,8 +53,8 @@ public class Recurrence implements ValueObject<Recurrence> {
     /**
      * Повтор начиная с даты <code>start</code>, используя периодичность <code>unit</code>
      *
-     * @param start
-     * @param unit
+     * @param start start date
+     * @param unit unit of recurrence
      */
     public Recurrence(LocalDate start, LocalDate finish, RecurrenceUnit unit) {
         Validate.notNull(start);
@@ -69,9 +69,9 @@ public class Recurrence implements ValueObject<Recurrence> {
     /**
      * Повтор начиная с даты <code>start</code>, используя периодичность <code>unit</code>
      *
-     * @param start
-     * @param unit
-     * @param nth
+     * @param start start date
+     * @param unit unit of recurrence
+     * @param nth Nth unit will be used for recurrence
      */
     public Recurrence(LocalDate start, LocalDate finish, RecurrenceUnit unit, int nth) {
         this(start, finish, unit, nth, 1, false);
