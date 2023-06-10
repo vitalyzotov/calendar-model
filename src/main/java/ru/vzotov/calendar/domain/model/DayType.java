@@ -5,7 +5,7 @@ import ru.vzotov.ddd.shared.ValueObject;
 public enum DayType implements ValueObject<DayType> {
     WORKING('W'), HOLIDAY('H'), WEEKEND('N');
 
-    private char symbol;
+    private final char symbol;
 
     DayType(char symbol) {
         this.symbol = symbol;
