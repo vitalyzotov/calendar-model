@@ -80,6 +80,23 @@ public class WorkCalendar implements Entity<WorkCalendar> {
         return result;
     }
 
+    /**
+     * Calculates date after N business days of another date
+     *
+     * @param base     the base date
+     * @param workdays number of workdays to add
+     * @return date after
+     */
+    public LocalDate plusWorkdays(LocalDate base, int workdays) {
+        LocalDate date = base;
+        for (int i = workdays; i > 0; i--) {
+            while ((typeOfDay(date) != DayType.WORKING)) {
+                date = date.plusDays(1);
+            }
+        }
+        return date;
+    }
+
     public WorkCalendar merge(WorkCalendar other) {
         Validate.isTrue(location().equals(other.location()));
         Set<SpecialDay> days = new HashSet<>(specialDays());

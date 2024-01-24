@@ -4,12 +4,15 @@ import org.apache.commons.lang3.Validate;
 import ru.vzotov.ddd.shared.ValueObject;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Objects;
 
-public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>> {
+public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>>, Iterable<LocalDate> {
     private final T start;
     private final T finish;
 
@@ -39,6 +42,10 @@ public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>> 
      */
     public static DateRange<LocalDate> of(YearMonth yearMonth) {
         return new DateRange<>(yearMonth.atDay(1), yearMonth.atEndOfMonth());
+    }
+
+    public static DateRange<LocalDate> of(Year year) {
+        return new DateRange<>(year.atDay(1), year.atDay(year.length()));
     }
 
     /**
@@ -139,8 +146,9 @@ public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>> 
 
     /**
      * Overlaps the date range with other date range
+     *
      * @param other the other date range
-     * @param unit the unit
+     * @param unit  the unit
      * @return intersection of two ranges; null if ranges do not overlap.
      */
     public DateRange<T> intersect(DateRange<T> other, ChronoUnit unit) {
@@ -153,6 +161,22 @@ public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>> 
                 || other.includes(s1, unit) || other.includes(f1, unit);
 
         return intersects ? new DateRange<>(max(s1, s2, unit), min(f1, f2, unit)) : null;
+    }
+
+    /**
+     * Calculates the date range that includes the current range and several points
+     *
+     * @param points points to include
+     * @return new date range that includes all specified points and current range
+     */
+    public DateRange<T> include(ChronoUnit unit, Collection<T> points) {
+        T s = this.start;
+        T f = this.finish;
+        for (T p : points) {
+            s = min(s, p, unit);
+            f = max(f, p, unit);
+        }
+        return new DateRange<>(s, f);
     }
 
     @Override
@@ -185,5 +209,24 @@ public class DateRange<T extends Temporal> implements ValueObject<DateRange<T>> 
 
     private static <T extends Temporal> T min(T t1, T t2, ChronoUnit unit) {
         return unit.between(t1, t2) < 0 ? t2 : t1;
+    }
+
+    @Override
+    public Iterator<LocalDate> iterator() {
+        return new Iterator<>() {
+            private LocalDate next = LocalDate.from(start);
+
+            @Override
+            public boolean hasNext() {
+                return ChronoUnit.DAYS.between(next, finish) >= 0;
+            }
+
+            @Override
+            public LocalDate next() {
+                LocalDate current = next;
+                next = next.plusDays(1);
+                return current;
+            }
+        };
     }
 }

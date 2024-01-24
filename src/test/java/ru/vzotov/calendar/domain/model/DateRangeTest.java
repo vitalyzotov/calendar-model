@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIterable;
+import static org.assertj.core.api.Assertions.assertThatIterator;
 
 public class DateRangeTest {
 
@@ -43,5 +46,15 @@ public class DateRangeTest {
                                 ChronoUnit.DAYS
                         )
         ).isNull();
+    }
+
+    @Test
+    public void testIterator() {
+        final DateRange<LocalDate> range = DateRange.of(LocalDate.parse("2023-01-04"), LocalDate.parse("2023-01-06"));
+        assertThatIterable(range).containsSequence(
+                LocalDate.parse("2023-01-04"),
+                LocalDate.parse("2023-01-05"),
+                LocalDate.parse("2023-01-06")
+        );
     }
 }
